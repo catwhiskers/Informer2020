@@ -8,5 +8,5 @@ WORKDIR /opt/program
 RUN cp /changehostname.c /opt/program/
 COPY . /opt/program/
 #entry point for sagemaker training job 
-#ENTRYPOINT ["python", "tv-training-code-sagemaker.py"]
+ENTRYPOINT ["python", "informer_sm_entry.py"]
 
