@@ -7,9 +7,11 @@
 This is the origin Pytorch implementation of Informer in the following paper: 
 [Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting](https://arxiv.org/abs/2012.07436). Special thanks to `Jieqi Peng`@[cookieminions](https://github.com/cookieminions) for building this repo.
 
+:triangular_flag_on_post:**News**(Mar 25, 2021): We update all experiment [results](#resultslink) with hyperparameter settings.
+
 :triangular_flag_on_post:**News**(Feb 22, 2021): We provide [Colab Examples](#colablink) for friendly usage.
 
-:triangular_flag_on_post:**News**(Feb 8, 2021): Our Informer paper has been awarded [AAAI'21 Best Paper](https://www.business.rutgers.edu/news/hui-xiong-and-research-colleagues-receive-aaai-best-paper-award)! We will continue this line of research and update on this repo. Please star this repo and [cite](#citelink) our paper if you find our work is helpful for you.
+:triangular_flag_on_post:**News**(Feb 8, 2021): Our Informer paper has been awarded [AAAI'21 Best Paper \[Official\]](https://aaai.org/Conferences/AAAI-21/aaai-outstanding-and-distinguished-papers/)[\[Beihang\]](http://scse.buaa.edu.cn/info/1097/7443.htm)[\[Rutgers\]](https://www.business.rutgers.edu/news/hui-xiong-and-research-colleagues-receive-aaai-best-paper-award)! We will continue this line of research and update on this repo. Please star this repo and [cite](#citelink) our paper if you find our work is helpful for you.
 
 <p align="center">
 <img src=".\img\informer.png" height = "360" alt="" align=center />
@@ -33,7 +35,7 @@ The self-attention scores form a long-tail distribution, where the "active" quer
 - numpy == 1.19.4
 - pandas == 0.25.1
 - scikit_learn == 0.21.3
-- torch == 1.4.0
+- torch == 1.8.0
 
 Dependencies can be installed using the following command:
 ```bash
@@ -72,16 +74,20 @@ python -u main_informer.py --model informer --data ETTm1 --attn prob --freq t
 More parameter information please refer to `main_informer.py`.
 
 
-## Results
+## <span id="resultslink">Results</span>
+
+We have updated the experiment results of all methods due to the change in data scaling. We are lucky that Informer gets performance improvement. Thank you @lk1983823 for reminding the data scaling in [issue 41](https://github.com/zhouhaoyi/Informer2020/issues/41).
+
+Besides, the experiment parameters of each data set are formated in the `.sh` files in the directory `./scripts/`. You can refer to these parameters for experiments, and you can also adjust the parameters to obtain better mse and mae results or draw better prediction figures.
 
 <p align="center">
-<img src="./img/result_univariate.png" height = "300" alt="" align=center />
+<img src="./img/result_univariate.png" height = "500" alt="" align=center />
 <br><br>
 <b>Figure 4.</b> Univariate forecasting results.
 </p>
 
 <p align="center">
-<img src="./img/result_multivariate.png" height = "250" alt="" align=center />
+<img src="./img/result_multivariate.png" height = "500" alt="" align=center />
 <br><br>
 <b>Figure 5.</b> Multivariate forecasting results.
 </p>
@@ -104,8 +110,10 @@ If you find this repository useful in your research, please consider citing the 
                Hui Xiong and
                Wancai Zhang},
   title     = {Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting},
-  booktitle = {The Thirty-Fifth {AAAI} Conference on Artificial Intelligence, {AAAI} 2021},
-  pages     = {online},
+  booktitle = {The Thirty-Fifth {AAAI} Conference on Artificial Intelligence, {AAAI} 2021, Virtual Conference},
+  volume    = {35},
+  number    = {12},
+  pages     = {11106--11115},
   publisher = {{AAAI} Press},
   year      = {2021},
 }

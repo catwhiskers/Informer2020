@@ -5,10 +5,11 @@ import torch.nn.functional as F
 class ConvLayer(nn.Module):
     def __init__(self, c_in):
         super(ConvLayer, self).__init__()
+        padding = 1 if torch.__version__>='1.5.0' else 2
         self.downConv = nn.Conv1d(in_channels=c_in,
                                   out_channels=c_in,
                                   kernel_size=3,
-                                  padding=2,
+                                  padding=padding,
                                   padding_mode='circular')
         self.norm = nn.BatchNorm1d(c_in)
         self.activation = nn.ELU()
@@ -67,7 +68,7 @@ class Encoder(nn.Module):
                 x, attn = attn_layer(x, attn_mask=attn_mask)
                 x = conv_layer(x)
                 attns.append(attn)
-            x, attn = self.attn_layers[-1](x)
+            x, attn = self.attn_layers[-1](x, attn_mask=attn_mask)
             attns.append(attn)
         else:
             for attn_layer in self.attn_layers:
@@ -80,22 +81,18 @@ class Encoder(nn.Module):
         return x, attns
 
 class EncoderStack(nn.Module):
-    def __init__(self, encoders):
+    def __init__(self, encoders, inp_lens):
         super(EncoderStack, self).__init__()
         self.encoders = nn.ModuleList(encoders)
+        self.inp_lens = inp_lens
 
     def forward(self, x, attn_mask=None):
         # x [B, L, D]
-        inp_len = x.shape[1]
-        x_stack = []
-        attns = []
-        for encoder in self.encoders:
-            if encoder is None:
-                inp_len = inp_len//2
-                continue
-            x, attn = encoder(x[:, -inp_len:, :])
-            x_stack.append(x); attns.append(attn)
-            inp_len = inp_len//2
+        x_stack = []; attns = []
+        for i_len, encoder in zip(self.inp_lens, self.encoders):
+            inp_len = x.shape[1]//(2**i_len)
+            x_s, attn = encoder(x[:, -inp_len:, :])
+            x_stack.append(x_s); attns.append(attn)
         x_stack = torch.cat(x_stack, -2)
         
         return x_stack, attns
