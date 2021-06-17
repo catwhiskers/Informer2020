@@ -1,10 +1,10 @@
-
 import argparse
 import os
 import torch
 
 from exp.exp_informer import Exp_Informer
 from types import SimpleNamespace
+import json
 
 
 parser = argparse.ArgumentParser(description='[Informer] Long Sequences Forecasting')
@@ -51,11 +51,9 @@ parser.add_argument('--lradj', type=str, default='type1',help='adjust learning r
 
 parser.add_argument('--use_gpu', type=bool, default=True, help='use gpu')
 parser.add_argument('--gpu', type=int, default=0, help='gpu')
-parser.add_argument('--train', type=int, default=0, help='gpu')
 
-#args = parser.parse_args()
 args = parser.parse_known_args()
-print(args)
+
 hp_dict = vars(args[0])
 print(hp_dict)
 config_path = '/opt/ml/input/config/hyperparameters.json'
