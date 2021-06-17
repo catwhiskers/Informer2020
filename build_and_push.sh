@@ -35,7 +35,7 @@ echo 'base_img:'$base_img
 
 # Build the docker image locally with the image name and then push it to ECR
 # with the full name.
-docker build  -t ${algorithm_name} -f Dockerfile  --build-arg BASE_IMG="${base_img}" .  
+docker build  -t ${algorithm_name} -f Dockerfile  --build-arg BASE_IMG="${base_img}" .  --no-cache	
 docker tag ${algorithm_name} ${fullname}
 docker push ${fullname}
 
